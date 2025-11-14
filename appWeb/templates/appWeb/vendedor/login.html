@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Login - App{% endblock %}
+
+{% block content %}
+    <h1 style="font-size: 32px; text-align:center; margin-top:40px; margin-bottom:32px;">
+        App
+    </h1>
+
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+
+        <div class="input-group">
+            <div class="input-label">E-mail</div>
+            <input class="input-field" type="email" name="email" required>
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Senha</div>
+            <input class="input-field" type="password" name="senha" required>
+        </div>
+
+        <div style="font-size:12px; text-align:right; margin-bottom:16px;">
+            Esqueci minha senha
+        </div>
+
+        <button type="submit" class="btn-primary">
+            Fazer Login
+        </button>
+
+        <div style="text-align:center; font-size:13px; margin-top:12px;">
+            Não tem uma conta?
+            <a href="{% url 'cadastro' %}">Cadastre-se</a>
+        </div>
+    </form>
+{% endblock %}

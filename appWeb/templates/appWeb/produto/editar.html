@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Produto{% endblock %}
+
+{% block header %}
+<header class="app-header">
+    <span onclick="history.back()" style="cursor:pointer;">&larr;</span>
+    <h1>Editar Produto</h1>
+</header>
+{% endblock %}
+
+{% block content %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="input-group">
+            <div class="input-label">Nome</div>
+            <input class="input-field" type="text" name="nome"
+                   value="{{ form.nome.value|default_if_none:produto.nome }}" required>
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Figura</div>
+            {% if produto.imagem %}
+                <div style="font-size:13px; margin-bottom:4px;">
+                    Arquivo atual: {{ produto.imagem.name }}
+                </div>
+            {% endif %}
+            <input class="input-field" type="file" name="imagem" accept="image/*">
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Preço</div>
+            <input class="input-field" type="number" step="0.01" name="preco"
+                   value="{{ form.preco.value|default_if_none:produto.preco }}" required>
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Descrição</div>
+            <textarea class="textarea-field" name="descricao">{{ form.descricao.value|default_if_none:produto.descricao }}</textarea>
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Disponibilidade</div>
+            <label class="toggle-row">
+                <input type="checkbox" name="status_disponivel"
+                       {% if form.status_disponivel.value or produto.status_disponivel %}checked{% endif %}>
+                {% if form.status_disponivel.value or produto.status_disponivel %}
+                    <span class="text-success">Disponível</span>
+                {% else %}
+                    <span class="text-danger">Indisponível</span>
+                {% endif %}
+            </label>
+        </div>
+
+        <button type="submit" class="btn-primary">
+            Editar
+        </button>
+    </form>
+{% endblock %}

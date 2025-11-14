@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastro - App{% endblock %}
+
+{% block header %}
+<header class="app-header">
+    <span>&larr;</span>
+    <h1>Cadastro</h1>
+</header>
+{% endblock %}
+
+{% block content %}
+    <form method="post" action="{% url 'cadastro' %}">
+        {% csrf_token %}
+
+        <div class="input-group">
+            <div class="input-label">E-mail</div>
+            <input class="input-field" type="email" name="email" required>
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Confirmar e-mail</div>
+            <input class="input-field" type="email" name="confirmar_email" required>
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Senha</div>
+            <input class="input-field" type="password" name="senha" required>
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Confirmar senha</div>
+            <input class="input-field" type="password" name="confirmar_senha" required>
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Nome Completo</div>
+            <input class="input-field" type="text" name="nome_completo" required>
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Nome de Venda</div>
+            <input class="input-field" type="text" name="nome_venda" required>
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Celular</div>
+            <input class="input-field" type="text" name="celular" required>
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Local principal de venda</div>
+            <input class="input-field" type="text" name="local_principal_venda">
+        </div>
+
+        <button type="submit" class="btn-primary">
+            Cadastrar
+        </button>
+    </form>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Perfil{% endblock %}
+
+{% block header %}
+<header class="app-header">
+    <span onclick="history.back()" style="cursor:pointer;">&larr;</span>
+    <h1>Editar perfil</h1>
+</header>
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="input-group">
+            <div class="input-label">E-mail</div>
+            <input class="input-field" type="email" name="email"
+                   value="{{ form.email.value|default_if_none:'' }}" required>
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Confirmar e-mail</div>
+            <input class="input-field" type="email" name="confirmar_email"
+                   value="{{ form.email.value|default_if_none:'' }}" required>
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Senha atual</div>
+            <input class="input-field" type="password" name="senha_atual">
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Nova senha</div>
+            <input class="input-field" type="password" name="senha_nova">
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Confirmar nova senha</div>
+            <input class="input-field" type="password" name="confirmar_senha_nova">
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Nome Completo</div>
+            <input class="input-field" type="text" name="nome_completo"
+                   value="{{ form.nome_completo.value|default_if_none:'' }}" required>
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Nome de Venda</div>
+            <input class="input-field" type="text" name="nome_venda"
+                   value="{{ form.nome_venda.value|default_if_none:'' }}" required>
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Celular</div>
+            <input class="input-field" type="text" name="celular"
+                   value="{{ form.celular.value|default_if_none:'' }}" required>
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Local principal de venda</div>
+            <input class="input-field" type="text" name="local_principal_venda"
+                   value="{{ form.local_principal_venda.value|default_if_none:'' }}">
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Disponibilidade</div>
+            <label class="toggle-row">
+                <input type="checkbox" name="status_disponivel"
+                       {% if form.status_disponivel.value %}checked{% endif %}>
+                {% if form.status_disponivel.value %}
+                    <span class="text-success">Disponível</span>
+                {% else %}
+                    <span class="text-danger">Indisponível</span>
+                {% endif %}
+            </label>
+        </div>
+
+        <button type="submit" class="btn-primary">Salvar</button>
+    </form>
+{% endblock %}

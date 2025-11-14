@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Meu Perfil{% endblock %}
+
+{% block header %}
+<header class="app-header">
+    <span style="font-size:20px;">☰</span>
+    <h1>Perfil</h1>
+</header>
+{% endblock %}
+
+{% block content %}
+    <div class="profile-avatar"></div>
+
+    <div class="profile-name">
+        {{ vendedor.nome_venda }}
+    </div>
+
+    <div class="row-between" style="margin:8px 0;">
+        <div class="toggle-row">
+            <input type="checkbox" disabled {% if vendedor.status_disponivel %}checked{% endif %}>
+            {% if vendedor.status_disponivel %}
+                <span class="text-success">Disponível</span>
+            {% else %}
+                <span class="text-danger">Indisponível</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="profile-location">
+        {{ vendedor.local_principal_venda|default:"Local não informado" }}
+    </div>
+
+    <div style="margin-top:16px;">
+        <a href="{% url 'editar_perfil' %}" class="btn-primary" style="text-decoration:none;">
+            Editar Perfil
+        </a>
+    </div>
+
+    <div class="products-section-title">
+        Produtos à venda
+    </div>
+
+    {% for produto in produtos %}
+        <div class="product-card">
+            <div class="product-image"
+                 style="{% if produto.imagem %}background-image:url('{{ produto.imagem.url }}');{% endif %}">
+            </div>
+            <div class="product-info">
+                <div class="product-name">{{ produto.nome }}</div>
+            </div>
+            <div class="product-price">
+                R$ {{ produto.preco }}
+            </div>
+        </div>
+    {% empty %}
+        <p style="font-size:14px; color:#777;">Você ainda não cadastrou produtos.</p>
+    {% endfor %}
+
+    <!-- Botão flutuante para editar catálogo -->
+    <a href="{% url 'listar_produtos' %}" class="fab" title="Editar catálogo">
+        ✏️
+    </a>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Produtos cadastrados{% endblock %}
+
+{% block header %}
+<header class="app-header">
+    <span onclick="history.back()" style="cursor:pointer;">&larr;</span>
+    <h1>Produtos cadastrados</h1>
+</header>
+{% endblock %}
+
+{% block content %}
+    {% for produto in produtos %}
+        <div class="product-card">
+            <div class="product-image"
+                 style="{% if produto.imagem %}background-image:url('{{ produto.imagem.url }}');{% endif %}">
+            </div>
+            <div class="product-info">
+                <div class="product-name">{{ produto.nome }}</div>
+                <div style="font-size:12px; color:#777;">
+                    {% if produto.status_disponivel %}
+                        <span class="text-success">Disponível</span>
+                    {% else %}
+                        <span class="text-danger">Indisponível</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+                <div class="product-price">R$ {{ produto.preco }}</div>
+                <div>
+                    <a href="{% url 'editar_produto' produto.id %}" class="btn-icon" title="Editar">
+                        ✏️
+                    </a>
+                    <form method="post" action="{% url 'excluir_produto' produto.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-icon text-danger" title="Excluir">
+                            🗑
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p style="font-size:14px; color:#777;">Nenhum produto cadastrado ainda.</p>
+    {% endfor %}
+
+    <!-- Botão flutuante para cadastrar produto -->
+    <a href="{% url 'criar_produto' %}" class="fab" title="Cadastrar produto">
+        +
+    </a>
+{% endblock %}

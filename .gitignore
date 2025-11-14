@@ -1,4 +1,5 @@
 # Ignore Python virtual environment folder
+.venv/
 venv/
 appWeb/__pycache__/
 projetoRP2/__pycache__/

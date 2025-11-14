@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Login/Cadastro - Vendedores{% endblock %}
+
+{% block header %}
+<header class="app-header" style="background:#4b3840; justify-content:space-between;">
+    <div style="font-size:20px;">👤</div>
+    <div style="font-size:16px;">Login/Cadastro para vendedores</div>
+    <a href="{% url 'home_cliente' %}" style="color:#fff; text-decoration:none; font-size:22px;">✕</a>
+</header>
+{% endblock %}
+
+{% block content %}
+    <div style="height: calc(100vh - 64px); display:flex; flex-direction:column; justify-content:flex-end; align-items:center; background:#4b3840; color:#fff; margin:-16px;">
+        <div style="font-size:14px; margin-bottom:24px; text-align:center;">
+            Entre em contato com<br>os desenvolvedores
+        </div>
+
+        <a href="{% url 'login' %}" class="btn-secondary"
+           style="margin-bottom:40px; border-color:#fff; color:#4b3840; background:#fff;">
+            Ir para login de vendedores
+        </a>
+    </div>
+{% endblock %}

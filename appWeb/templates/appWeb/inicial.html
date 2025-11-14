@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}App - Início{% endblock %}
+
+{% block content %}
+    <div style="height: 60vh; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+
+        <h1 style="font-size:40px; color:#9b9b9b; margin-bottom:12px;">
+            App
+        </h1>
+
+        <p style="font-size:14px; color:#777; margin-bottom:24px;">
+            Continuar como:
+        </p>
+
+        <a href="{% url 'login' %}"
+           style="text-decoration:none; width:70%; margin-bottom:12px;">
+            <div class="btn-primary" style="width:100%; text-align:center;">
+                Vendedor
+            </div>
+        </a>
+
+        <a href="{% url 'home_cliente' %}"
+           style="text-decoration:none; width:70%;">
+            <div class="btn-primary" style="width:100%; text-align:center;">
+                Comprador
+            </div>
+        </a>
+    </div>
+{% endblock %}

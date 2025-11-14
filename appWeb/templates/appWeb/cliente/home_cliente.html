@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}App - Produtos{% endblock %}
+
+{% block header %}
+<header class="app-header" style="background:#4b3840; justify-content:space-between;">
+    <!-- menu lateral, se quiser usar no futuro -->
+    <button class="btn-icon" style="color:#fff; font-size:22px;">☰</button>
+
+    <h1 style="font-size:16px;">App</h1>
+
+    <!-- três pontinhos abrindo a tela de login/cadastro p/ vendedores -->
+    <a href="{% url 'info_vendedores' %}" class="btn-icon" style="color:#fff; font-size:24px;">
+        ⋮
+    </a>
+</header>
+{% endblock %}
+
+{% block content %}
+    <!-- barra de filtro + busca -->
+    <form method="get" class="row-between" style="margin-bottom:12px; gap:8px;">
+        <button type="button" class="btn-icon" style="font-size:22px;">⚲</button>
+        <div style="flex:1; position:relative;">
+            <input type="text" name="q" value="{{ busca }}"
+                   class="input-field"
+                   placeholder="Buscar produto ou vendedor">
+            <span style="position:absolute; right:12px; top:50%; transform:translateY(-50%); font-size:18px;">🔍</span>
+        </div>
+    </form>
+
+    {% for produto in produtos %}
+        <a href="{% url 'detalhe_produto_cliente' produto.id %}"
+           style="text-decoration:none; color:inherit;">
+            <div class="product-card">
+                <div class="product-image"
+                     style="{% if produto.imagem %}background-image:url('{{ produto.imagem.url }}');{% endif %}">
+                </div>
+
+                <div class="product-info">
+                    <div class="product-name" style="font-size:15px; margin-bottom:4px;">
+                        {{ produto.nome }}
+                    </div>
+                    <div style="font-size:12px; color:#777;">
+                        {{ produto.vendedor.nome_venda }}
+                    </div>
+                </div>
+
+                <div class="product-price">
+                    R$ {{ produto.preco }}
+                </div>
+            </div>
+        </a>
+    {% empty %}
+        <p style="font-size:14px; color:#777;">Nenhum produto disponível no momento.</p>
+    {% endfor %}
+{% endblock %}

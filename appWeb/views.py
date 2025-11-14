@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import logout as django_logout
 from django.contrib.auth.hashers import check_password, make_password
-
+from django.db.models import Q
 from .models import Vendedor, Produto
 from .forms import VendedorForm, ProdutoForm
 
@@ -37,7 +37,7 @@ def login_vendedor(request):
 def logout_vendedor(request):
     request.session.flush()
     django_logout(request)
-    return redirect("login")
+    return render(request, "appWeb/inicial.html")
 
 
 
@@ -153,3 +153,74 @@ def excluir_produto(request, produto_id):
     produto.delete()
     messages.success(request, "Produto removido!")
     return redirect("listar_produtos")
+
+# ==========================
+# TRILHA INICIAL
+# ==========================
+def pagina_inicial(request):
+    """
+    Tela inicial: escolher Vendedor ou Comprador.
+    """
+    return render(request, "appWeb/inicial.html")
+
+# ==========================
+# TRILHA DO COMPRADOR (visitante)
+
+def home_cliente(request):
+    """
+    Lista de produtos para o comprador (sem login).
+    Permite busca simples por nome do produto ou nome do vendedor.
+    """
+    busca = request.GET.get("q", "").strip()
+
+    produtos = Produto.objects.select_related("vendedor").filter(
+        status_disponivel=True,
+        vendedor__status_disponivel=True,
+    )
+
+    if busca:
+        produtos = produtos.filter(
+            Q(nome__icontains=busca) |
+            Q(vendedor__nome_venda__icontains=busca)
+        )
+
+    context = {
+        "produtos": produtos,
+        "busca": busca,
+    }
+    return render(request, "appWeb/cliente/home_cliente.html", context)
+
+
+def info_vendedores(request):
+    """
+    Tela 'Login/Cadastro para vendedores' (3 pontinhos / menu).
+    Apenas informativa, não mexe em nada no BD.
+    """
+    return render(request, "appWeb/cliente/info_vendedores.html")
+
+
+def detalhe_produto_cliente(request, produto_id):
+    """
+    Tela de detalhes do produto para o comprador.
+    Mostra imagem grande, nome, preço, vendedor e descrição.
+    Botão 'Entre em contato' pode abrir um link de WhatsApp.
+    """
+    produto = get_object_or_404(
+        Produto.objects.select_related("vendedor"),
+        id=produto_id,
+        status_disponivel=True,
+        vendedor__status_disponivel=True,
+    )
+
+    # se quiser usar link de WhatsApp:
+    whatsapp_link = ""
+    if produto.vendedor.celular:
+        numero = produto.vendedor.celular
+        numero = "".join(filter(str.isdigit, numero))
+        whatsapp_link = f"https://wa.me/55{numero}"
+
+    context = {
+        "produto": produto,
+        "whatsapp_link": whatsapp_link,
+    }
+    return render(request, "appWeb/cliente/detalhe_produto.html", context)

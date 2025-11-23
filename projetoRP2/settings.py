@@ -54,8 +54,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'appWeb'
+    'appWeb',
+    'anymail',
 ]
+
+# Optional: Anymail (SendGrid) support. If installed and SENDGRID_API_KEY is set
+# we will switch the EMAIL_BACKEND to Anymail's SendGrid backend below.
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -147,3 +151,28 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Development email backend: prints emails to console. Change for production.
+EMAIL_BACKEND = os.environ.get('DJANGO_EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'no-reply@localhost')
+
+# Prefer provider API (SendGrid via Anymail) when API key is provided in env.
+SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY', '')
+if SENDGRID_API_KEY:
+    ANYMAIL = {
+        'SENDGRID_API_KEY': SENDGRID_API_KEY,
+    }
+    EMAIL_BACKEND = 'anymail.backends.sendgrid.EmailBackend'
+
+# Optional: configure SMTP details when EMAIL_HOST is provided in env (fallback)
+EMAIL_HOST = os.environ.get('EMAIL_HOST', '')
+if EMAIL_HOST and not SENDGRID_API_KEY:
+    EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+    EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True') == 'True'
+    # use Django's SMTP backend explicitly when SMTP settings are provided
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Trust X-Forwarded-Proto header (useful on Heroku behind proxy)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

@@ -7,4 +7,5 @@ pillow==12.0.0
 setuptools==80.9.0
 sqlparse==0.5.3
 wheel==0.45.1
-whitenoise==6.5.0
+whitenoise==6.11.0
+django-anymail==9.2.0

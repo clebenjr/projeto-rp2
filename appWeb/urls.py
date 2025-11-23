@@ -5,6 +5,9 @@ urlpatterns = [
     path("", views.pagina_inicial, name="pagina_inicial"),
 
     path("login/", views.login_vendedor, name="login"),
+    path("password-reset/", views.password_reset_request, name="password_reset"),
+    path("password-reset/<str:token>/", views.password_reset_confirm, name="password_reset_confirm"),
+    path("activate/<str:token>/", views.activate_account, name="activate"),
     path("logout/", views.logout_vendedor, name="logout"),
     path("cadastro/", views.cadastro_vendedor, name="cadastro"),
     path("painel/", views.painel_vendedor, name="painel_vendedor"),

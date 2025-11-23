@@ -4,6 +4,10 @@ from django.db import models
 class Vendedor(models.Model):
     email = models.EmailField(unique=True)
     senha = models.CharField(max_length=128)  # pode guardar hash depois
+    is_active = models.BooleanField(
+        default=False,
+        help_text="Conta ativa após confirmação por e-mail"
+    )
     nome_completo = models.CharField(max_length=150)
     nome_venda = models.CharField(max_length=100)
     celular = models.CharField(max_length=20)

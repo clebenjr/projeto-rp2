@@ -24,9 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-qeg0km3@gctj7-zy%_3l8&nnwkuv6%_2p9xbv4o%h%vz96tjui'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Read DEBUG and ALLOWED_HOSTS from environment so Heroku can set them securely.
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
+# Example: set ALLOWED_HOSTS env var to 'your-app.herokuapp.com,localhost'
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
 
 
 

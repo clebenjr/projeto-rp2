@@ -24,9 +24,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-qeg0km3@gctj7-zy%_3l8&nnwkuv6%_2p9xbv4o%h%vz96tjui'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Read DEBUG and ALLOWED_HOSTS from environment so Heroku can set them securely.
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
+# Example: set ALLOWED_HOSTS env var to 'your-app.herokuapp.com,localhost'
+_hosts_env = os.environ.get('ALLOWED_HOSTS', '')
+if _hosts_env:
+    # split on commas, strip whitespace, ignore empty entries
+    ALLOWED_HOSTS = [h.strip() for h in _hosts_env.split(',') if h.strip()]
+    # allow wildcard '*' to mean allow all hosts
+    if '*' in ALLOWED_HOSTS:
+        ALLOWED_HOSTS = ['*']
+else:
+    # sensible defaults for local development
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 MEDIA_URL = 'media/'
@@ -48,6 +59,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -121,7 +133,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+# Where `collectstatic` will collect static files for deployment
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# Additional places Django will look for static files (optional)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+# Use WhiteNoise storage backend so Heroku can serve compressed files
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

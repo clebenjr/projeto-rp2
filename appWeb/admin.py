@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Vendedor, Produto, ImagemProduto  # ajuste os nomes que você tiver
 
-# Register your models here.
+admin.site.register(Vendedor)
+admin.site.register(Produto)
+admin.site.register(ImagemProduto)
+

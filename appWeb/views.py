@@ -13,22 +13,23 @@ def home(request):
 
 
 def login_vendedor(request):
+    # se já estiver logado, manda direto pro perfil
+    if request.session.get("vendedor_id"):
+        return redirect("painel_vendedor")
+
     if request.method == "POST":
         email = request.POST.get("email")
         senha = request.POST.get("senha")
 
-        try:
-            vendedor = Vendedor.objects.get(email=email)
-        except Vendedor.DoesNotExist:
-            messages.error(request, "E-mail não encontrado.")
-            return redirect("login")
-
-        if check_password(senha, vendedor.senha):
+        vendedor = Vendedor.objects.filter(email=email, senha=senha).first()
+        if vendedor:
             request.session["vendedor_id"] = vendedor.id
+            # só pra garantir que a sessão foi marcada como modificada
+            request.session.modified = True
             return redirect("painel_vendedor")
-
-        messages.error(request, "Senha incorreta.")
-        return redirect("login")
+        else:
+            contexto = {"erro": "E-mail ou senha inválidos."}
+            return render(request, "appWeb/vendedor/login.html", contexto)
 
     return render(request, "appWeb/vendedor/login.html")
 

@@ -4,28 +4,76 @@
 
 {% block header %}
 <header class="app-header">
-    <span style="font-size:20px;">☰</span>
+    <!-- Ícone de menu (3 tracinhos) -->
+    <button onclick="toggleMenu()"
+            style="background:none; border:none; color:white; font-size:22px; margin-left:10px; cursor:pointer;">
+        ☰
+    </button>
     <h1>Perfil</h1>
+    <span style="width:22px;"></span>
 </header>
 {% endblock %}
 
 {% block content %}
+
+    {# ============== MENU LATERAL + OVERLAY ============== #}
+    <!-- Menu lateral -->
+    <div id="side-menu"
+         style="
+            position: fixed;
+            top: 0;
+            left: -260px;
+            width: 260px;
+            height: 100%;
+            background: #4b3840;
+            color: white;
+            padding: 20px;
+            transition: left 0.3s ease;
+            z-index: 9999;
+         ">
+        <h2 style="margin-top: 0; font-size: 18px;">Menu</h2>
+
+        <a href="{% url 'logout' %}"
+           style="display:block; margin-top:20px; color:white; text-decoration:none; font-size:16px;">
+            🔐 Logout
+        </a>
+    </div>
+
+    <!-- Fundo escuro quando o menu está aberto -->
+    <div id="menu-overlay"
+         onclick="toggleMenu()"
+         style="
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            display:none;
+            z-index: 9998;
+         ">
+    </div>
+
+    {# ============== CONTEÚDO DO PERFIL ============== #}
+
     <div class="profile-avatar"></div>
 
     <div class="profile-name">
         {{ vendedor.nome_venda }}
     </div>
 
-    <div class="row-between" style="margin:8px 0;">
-        <div class="toggle-row">
-            <input type="checkbox" disabled {% if vendedor.status_disponivel %}checked{% endif %}>
-            {% if vendedor.status_disponivel %}
-                <span class="text-success">Disponível</span>
-            {% else %}
-                <span class="text-danger">Indisponível</span>
-            {% endif %}
-        </div>
+    <div style="margin-top:6px; text-align:center;">
+        {% if vendedor.status_disponivel %}
+            <span style="color:#28a745; font-weight:600; font-size:14px;">
+                Disponível
+            </span>
+        {% else %}
+            <span style="color:#d9534f; font-weight:600; font-size:14px;">
+                Indisponível
+            </span>
+        {% endif %}
     </div>
+
 
     <div class="profile-location">
         {{ vendedor.local_principal_venda|default:"Local não informado" }}
@@ -61,4 +109,20 @@
     <a href="{% url 'listar_produtos' %}" class="fab" title="Editar catálogo">
         ✏️
     </a>
+
+    <script>
+    function toggleMenu() {
+        const menu = document.getElementById("side-menu");
+        const overlay = document.getElementById("menu-overlay");
+
+        if (menu.style.left === "0px") {
+            menu.style.left = "-260px";
+            overlay.style.display = "none";
+        } else {
+            menu.style.left = "0px";
+            overlay.style.display = "block";
+        }
+    }
+    </script>
+
 {% endblock %}

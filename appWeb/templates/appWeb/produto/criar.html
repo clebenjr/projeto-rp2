@@ -3,46 +3,68 @@
 {% block title %}Cadastro de Produto{% endblock %}
 
 {% block header %}
-<header class="app-header">
-    <span onclick="history.back()" style="cursor:pointer;">&larr;</span>
-    <h1>Cadastro do Produto</h1>
+<header class="app-header" style="background:#4b3840; justify-content:flex-start; gap:8px;">
+    <a href="javascript:history.back()"
+       style="color:#fff; text-decoration:none; font-size:20px; padding:4px 6px; display:inline-block;">
+        &larr;
+    </a>
+    <h1 style="font-size:18px; font-weight:600;">Cadastro do Produto</h1>
 </header>
 {% endblock %}
 
 {% block content %}
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+<form method="post" enctype="multipart/form-data"
+      style="max-width:360px; margin:12px auto 0;">
+    {% csrf_token %}
 
-        <div class="input-group">
-            <div class="input-label">Nome</div>
-            <input class="input-field" type="text" name="nome" required>
-        </div>
+    <!-- NOME -->
+    <div class="input-group">
+        <div class="input-label">Nome</div>
+        <input class="input-field" type="text" name="nome" required>
+    </div>
 
-        <div class="input-group">
-            <div class="input-label">Figura</div>
-            <input class="input-field" type="file" name="imagem" accept="image/*">
-        </div>
+    <!-- IMAGEM PRINCIPAL -->
+    <div class="input-group">
+        <div class="input-label">Figura (imagem principal)</div>
+        <input class="input-field" type="file" name="imagem" accept="image/*">
+    </div>
 
-        <div class="input-group">
-            <div class="input-label">Preço</div>
-            <input class="input-field" type="number" step="0.01" name="preco" required>
-        </div>
+    <!-- 🆕 IMAGENS DO CATÁLOGO (VÁRIAS) -->
+    <div class="input-group">
+        <div class="input-label">Imagens do catálogo</div>
+        <input class="input-field"
+               type="file"
+               name="imagens_catalogo"
+               accept="image/*"
+               multiple>
+        <small style="font-size:12px; color:#666;">
+            Você pode selecionar várias imagens para a galeria do produto.
+        </small>
+    </div>
 
-        <div class="input-group">
-            <div class="input-label">Descrição</div>
-            <textarea class="textarea-field" name="descricao"></textarea>
-        </div>
+    <!-- PREÇO -->
+    <div class="input-group">
+        <div class="input-label">Preço</div>
+        <input class="input-field" type="number" step="0.01" name="preco" required>
+    </div>
 
-        <div class="input-group">
-            <div class="input-label">Disponibilidade</div>
-            <label class="toggle-row">
-                <input type="checkbox" name="status_disponivel" checked>
-                <span class="text-success">Disponível</span>
-            </label>
-        </div>
+    <!-- DESCRIÇÃO -->
+    <div class="input-group">
+        <div class="input-label">Descrição</div>
+        <textarea class="textarea-field" name="descricao"></textarea>
+    </div>
 
-        <button type="submit" class="btn-primary">
-            Cadastrar
-        </button>
-    </form>
+    <!-- DISPONIBILIDADE -->
+    <div class="input-group">
+        <div class="input-label">Disponibilidade</div>
+        <label class="toggle-row">
+            <input type="checkbox" name="status_disponivel" checked>
+            <span class="text-success">Disponível</span>
+        </label>
+    </div>
+
+    <button type="submit" class="btn-primary" style="margin-top:8px;">
+        Cadastrar
+    </button>
+</form>
 {% endblock %}

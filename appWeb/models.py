@@ -22,6 +22,7 @@ class Vendedor(models.Model):
         return self.nome_venda or self.nome_completo
     
 
+
 class Produto(models.Model):
     vendedor = models.ForeignKey(
         Vendedor,
@@ -35,6 +36,14 @@ class Produto(models.Model):
         blank=True,
         help_text="Arquivo da figura (brigadeiro, brownie, etc.)"
     )
+
+    imagem = models.ImageField(
+        upload_to="produtos/",
+        null=True,
+        blank=True,
+        help_text="Imagem principal (aparece nas listas)"
+    )
+
     preco = models.DecimalField(max_digits=8, decimal_places=2)
     descricao = models.TextField(blank=True)
     status_disponivel = models.BooleanField(
@@ -49,3 +58,17 @@ class Produto(models.Model):
 
     class Meta:
         ordering = ["nome"]
+
+
+class ImagemProduto(models.Model):
+    produto = models.ForeignKey(
+        Produto,
+        on_delete=models.CASCADE,
+        related_name="imagens_catalogo"
+    )
+    imagem = models.ImageField(upload_to="produtos/catalogo/")
+
+    criado_em = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Imagem de {self.produto.nome} ({self.id})"

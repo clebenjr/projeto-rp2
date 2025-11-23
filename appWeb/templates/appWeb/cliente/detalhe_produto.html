@@ -4,24 +4,143 @@
 
 {% block header %}
 <header class="app-header" style="background:#4b3840; justify-content:space-between;">
-    <a href="{% url 'home_cliente' %}" style="color:#fff; text-decoration:none; font-size:20px;">
+    <a href="{% url 'home_cliente' %}"
+       style="color:#fff; text-decoration:none; font-size:20px;">
         &larr;
     </a>
-    <h1 style="font-size:16px;">App</h1>
+    <h1 style="font-size:16px;">UniFood</h1>
     <span></span>
 </header>
 {% endblock %}
 
 {% block content %}
-    <!-- imagem grande -->
-    <div style="margin:-16px -16px 12px -16px;">
-        {% if produto.imagem %}
-            <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}"
-                 style="width:100%; max-height:260px; object-fit:cover;">
-        {% else %}
-            <div style="width:100%; height:220px; background:#ddd;"></div>
-        {% endif %}
-    </div>
+
+    {# ================== IMAGEM PRINCIPAL + SETAS ================== #}
+    {% if produto.imagem or produto.imagens_catalogo.all %}
+        <div id="imagem-container"
+             style="position:relative; margin:-16px -16px 12px -16px;">
+
+            <!-- Imagem principal (src será controlado via JS) -->
+            <img id="imagem-principal"
+                 src=""
+                 alt="{{ produto.nome }}"
+                 style="width:100%; max-height:260px; object-fit:cover; display:block;">
+
+           <!-- SETA ESQUERDA (somente ícone cinza claro) -->
+        <button id="seta-esquerda"
+            onclick="trocarImagem(-1)"
+            style="
+                position:absolute;
+                left:10px;
+                top:50%;
+                transform:translateY(-50%);
+                background:none;           /* sem fundo */
+                border:none;               /* sem borda */
+                font-size:30px;            /* maior para mobile */
+                color:rgba(200,200,200,0.9); /* cinza claro */
+                cursor:pointer;
+                padding:0;
+                z-index:10;
+                text-shadow:0px 0px 4px rgba(0,0,0,0.4); /* leve sombra p/ aparecer sobre imagem */
+            ">
+            &#10094;
+        </button>
+
+        <!-- SETA DIREITA -->
+        <button id="seta-direita"
+            onclick="trocarImagem(1)"
+            style="
+                position:absolute;
+                right:10px;
+                top:50%;
+                transform:translateY(-50%);
+                background:none;
+                border:none;
+                font-size:30px;
+                color:rgba(200,200,200,0.9);
+                cursor:pointer;
+                padding:0;
+                z-index:10;
+                text-shadow:0px 0px 4px rgba(0,0,0,0.4);
+            ">
+            &#10095;
+        </button>
+        </div>
+
+        <script>
+            // Array com todas as imagens do produto (principal + catálogo)
+            const imagensProduto = [
+                {% if produto.imagem %}
+                    "{{ produto.imagem.url }}"{% if produto.imagens_catalogo.all %},{% endif %}
+                {% endif %}
+                {% for img_cat in produto.imagens_catalogo.all %}
+                    "{{ img_cat.imagem.url }}"{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ];
+
+            let indiceAtual = 0;
+
+            function atualizarSetas() {
+                const setaEsq = document.getElementById("seta-esquerda");
+                const setaDir = document.getElementById("seta-direita");
+
+                if (!setaEsq || !setaDir) return;
+
+                if (imagensProduto.length <= 1) {
+                    // Se só tem 1 imagem, some com as setas
+                    setaEsq.style.display = "none";
+                    setaDir.style.display = "none";
+                    return;
+                }
+
+                // Esquerda
+                if (indiceAtual === 0) {
+                    setaEsq.style.opacity = "0.25";
+                    setaEsq.style.pointerEvents = "none";
+                } else {
+                    setaEsq.style.opacity = "0.9";
+                    setaEsq.style.pointerEvents = "auto";
+                }
+
+                // Direita
+                if (indiceAtual === imagensProduto.length - 1) {
+                    setaDir.style.opacity = "0.25";
+                    setaDir.style.pointerEvents = "none";
+                } else {
+                    setaDir.style.opacity = "0.9";
+                    setaDir.style.pointerEvents = "auto";
+                }
+            }
+
+            function trocarImagem(delta) {
+                const nova = indiceAtual + delta;
+                if (nova < 0 || nova >= imagensProduto.length) return;
+
+                indiceAtual = nova;
+                const imgPrincipal = document.getElementById("imagem-principal");
+                if (imgPrincipal) {
+                    imgPrincipal.src = imagensProduto[indiceAtual];
+                }
+                atualizarSetas();
+            }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const imgPrincipal = document.getElementById("imagem-principal");
+                if (!imgPrincipal || imagensProduto.length === 0) return;
+
+                // Define a primeira imagem
+                imgPrincipal.src = imagensProduto[0];
+                atualizarSetas();
+            });
+        </script>
+
+    {% else %}
+        <!-- Se não tiver nenhuma imagem, mostra placeholder cinza -->
+        <div style="width:100%; height:220px; background:#ddd; margin:-16px -16px 12px -16px;"></div>
+    {% endif %}
+
+
+    {# ================== INFO DO PRODUTO ================== #}
 
     <div class="row-between" style="margin-bottom:4px;">
         <div style="font-size:18px; font-weight:600;">
@@ -32,17 +151,33 @@
         </div>
     </div>
 
-    <div style="font-size:13px; color:#777; margin-bottom:16px;">
-        <a href="{% url 'detalhe_vendedor_cliente' produto.vendedor.id %}"
-        style="color:#777; text-decoration:none;">
-            {{ produto.vendedor.nome_venda }}
-        </a>
-    </div>
-
     <hr style="border:none; border-top:1px solid #e0e0e0; margin-bottom:16px;">
 
     <div style="font-size:14px; margin-bottom:24px; line-height:1.4;">
         {{ produto.descricao|default:"Sem descrição cadastrada." }}
+    </div>
+
+    <div style="margin-bottom:16px;">
+        <a href="{% url 'detalhe_vendedor_cliente' produto.vendedor.id %}"
+        style="
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:8px 10px;
+            border-radius:12px;
+            background:#f4f1f1;
+            text-decoration:none;
+        ">
+            <div style="display:flex; flex-direction:column;">
+                <span style="font-size:14px; font-weight:600; color:#4b3840;">
+                    {{ produto.vendedor.nome_venda }}
+                </span>
+                <span style="font-size:12px; color:#777;">
+                    Ver mais produtos deste vendedor
+                </span>
+            </div>
+            <span style="font-size:16px; color:#777;">›</span>
+        </a>
     </div>
 
     {% if whatsapp_link %}
@@ -56,4 +191,5 @@
             Contato não disponível
         </div>
     {% endif %}
+
 {% endblock %}

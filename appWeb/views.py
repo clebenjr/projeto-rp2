@@ -5,8 +5,8 @@ from django.contrib.auth import logout as django_logout
 from django.contrib.auth.hashers import check_password, make_password
 from django.db.models import Q
 from .models import Vendedor, Produto
+from .models import Vendedor, Produto, ImagemProduto
 from .forms import VendedorForm, ProdutoForm
-
 
 def home(request):
     return render(request, 'appWeb/index.html')
@@ -114,6 +114,11 @@ def criar_produto(request):
             produto = form.save(commit=False)
             produto.vendedor = vendedor
             produto.save()
+
+            # IMAGENS DE CATÁLOGO (várias)
+            imagens_catalogo = request.FILES.getlist("imagens_catalogo")
+            for img in imagens_catalogo:
+                ImagemProduto.objects.create(produto=produto, imagem=img)
 
             messages.success(request, "Produto cadastrado!")
             return redirect("listar_produtos")

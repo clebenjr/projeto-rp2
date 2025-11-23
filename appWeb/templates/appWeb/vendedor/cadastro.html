@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Cadastro - UniFood{% endblock %}
+{% block title %}Cadastro{% endblock %}
 
 {% block header %}
 <header class="app-header" style="background:#4b3840; justify-content:flex-start; gap:8px;">
@@ -13,70 +13,63 @@
 {% endblock %}
 
 {% block content %}
-    <form method="post" action="{% url 'cadastro' %}"
-          style="max-width:360px; margin:12px auto 0;">
-        {% csrf_token %}
 
-        <div class="input-group" style="margin-bottom:10px;">
-            <div class="input-label" style="font-size:13px;">Nome Completo</div>
-            <input class="input-field"
-                   style="padding:7px 12px; border-radius:16px; font-size:13px;"
-                   type="text" name="nome_completo" required>
-        </div>
+<form method="post" style="max-width:360px; margin:12px auto;">
+    {% csrf_token %}
 
-        <div class="input-group" style="margin-bottom:10px;">
-            <div class="input-label" style="font-size:13px;">E-mail</div>
-            <input class="input-field"
-                   style="padding:7px 12px; border-radius:16px; font-size:13px;"
-                   type="email" name="email" required>
-        </div>
+    <!-- NOME COMPLETO -->
+    <div class="input-group">
+        <label class="input-label">Nome Completo</label>
+        <input class="input-field" type="text" name="nome_completo" required>
+    </div>
+    
+    <!-- E-MAIL -->
+    <div class="input-group">
+        <label class="input-label">E-mail</label>
+        <input class="input-field" type="email" name="email" required>
+    </div>
 
-        <div class="input-group" style="margin-bottom:10px;">
-            <div class="input-label" style="font-size:13px;">Confirmar e-mail</div>
-            <input class="input-field"
-                   style="padding:7px 12px; border-radius:16px; font-size:13px;"
-                   type="email" name="confirmar_email" required>
-        </div>
+    <!-- CONFIRMAR EMAIL -->
+    <div class="input-group">
+        <label class="input-label">Confirmar e-mail</label>
+        <input class="input-field" type="email" name="confirmar_email" required>
+    </div>
 
-        <div class="input-group" style="margin-bottom:10px;">
-            <div class="input-label" style="font-size:13px;">Senha</div>
-            <input class="input-field"
-                   style="padding:7px 12px; border-radius:16px; font-size:13px;"
-                   type="password" name="senha" required>
-        </div>
+    <!-- SENHA -->
+    <div class="input-group">
+        <label class="input-label">Senha</label>
+        <input class="input-field" type="password" name="senha" required>
+    </div>
 
-        <div class="input-group" style="margin-bottom:10px;">
-            <div class="input-label" style="font-size:13px;">Confirmar senha</div>
-            <input class="input-field"
-                   style="padding:7px 12px; border-radius:16px; font-size:13px;"
-                   type="password" name="confirmar_senha" required>
-        </div>
+    <!-- CONFIRMAR SENHA -->
+    <div class="input-group">
+        <label class="input-label">Confirmar senha</label>
+        <input class="input-field" type="password" name="confirmar_senha" required>
+    </div>
 
-        <div class="input-group" style="margin-bottom:10px;">
-            <div class="input-label" style="font-size:13px;">Nome de Venda</div>
-            <input class="input-field"
-                   style="padding:7px 12px; border-radius:16px; font-size:13px;"
-                   type="text" name="nome_venda" required>
-        </div>
+    <!-- NOME DE VENDA -->
+    <div class="input-group">
+        <label class="input-label">Nome de Venda</label>
+        <input class="input-field" type="text" name="nome_venda" required>
+    </div>
 
-        <div class="input-group" style="margin-bottom:10px;">
-            <div class="input-label" style="font-size:13px;">Celular</div>
-            <input class="input-field"
-                   style="padding:7px 12px; border-radius:16px; font-size:13px;"
-                   type="text" name="celular" required>
-        </div>
+    <!-- CELULAR -->
+    <div class="input-group">
+        <label class="input-label">Celular</label>
+        <input class="input-field" type="text" name="celular" placeholder="(11) 90000-0000" required>
+    </div>
 
-        <div class="input-group" style="margin-bottom:16px;">
-            <div class="input-label" style="font-size:13px;">Local principal de venda</div>
-            <input class="input-field"
-                   style="padding:7px 12px; border-radius:16px; font-size:13px;"
-                   type="text" name="local_principal_venda">
-        </div>
+    <!-- LOCAL PRINCIPAL -->
+    <div class="input-group">
+        <label class="input-label">Local principal de venda</label>
+        <input class="input-field" type="text" name="local_principal" required>
+    </div>
 
-        <button type="submit"
-                class="btn-primary"
-                style="margin-top:4px; padding:10px; border-radius:20px; font-size:15px;">
-            Cadastrar
-        </button>
-    </form>
+    <!-- BOTÃO -->
+    <button type="submit" class="btn-primary" style="margin-top:12px;">
+        Cadastrar
+    </button>
+
+</form>
+
 {% endblock %}

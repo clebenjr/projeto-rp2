@@ -1,5 +1,5 @@
 from django import forms
-from .models import Vendedor, Produto
+from .models import Vendedor, Produto, ImagemProduto
 
 
 class VendedorForm(forms.ModelForm):

@@ -15,6 +15,12 @@ class Vendedor(models.Model):
         default=False,
         help_text="Toggle Disponível / Indisponível do perfil"
     )
+    
+    foto_perfil = models.ImageField(
+        upload_to="vendedores/perfis/",
+        null=True,
+        blank=True
+    )
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
 

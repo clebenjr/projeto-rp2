@@ -44,7 +44,7 @@ def logout_vendedor(request):
 
 def cadastro_vendedor(request):
     if request.method == "POST":
-        form = VendedorForm(request.POST)
+        form = VendedorForm(request.POST, request.FILES)  
 
         if form.is_valid():
             vendedor = form.save(commit=False)
@@ -52,7 +52,6 @@ def cadastro_vendedor(request):
             vendedor.save()
             messages.success(request, "Conta criada com sucesso!")
             return redirect("login")
-
     else:
         form = VendedorForm()
 
@@ -75,24 +74,28 @@ def editar_perfil(request):
     vendedor = get_object_or_404(Vendedor, id=vendedor_id)
 
     if request.method == "POST":
-        form = VendedorForm(request.POST, instance=vendedor)
+        form = VendedorForm(request.POST, request.FILES, instance=vendedor)
 
         if form.is_valid():
-            novo = form.save(commit=False)
+            vendedor = form.save(commit=False)
 
-            # Atualizar senha se for informada
+            # Atualização de senha
             senha_nova = request.POST.get("senha_nova")
             if senha_nova:
-                novo.senha = make_password(senha_nova)
+                vendedor.senha = make_password(senha_nova)
 
-            novo.save()
+            vendedor.save()  
+
             messages.success(request, "Perfil atualizado!")
             return redirect("painel_vendedor")
-
     else:
         form = VendedorForm(instance=vendedor)
 
-    return render(request, "appWeb/vendedor/editar_perfil.html", {"form": form})
+    return render(
+        request,
+        "appWeb/vendedor/editar_perfil.html",
+        {"form": form, "vendedor": vendedor}
+    )
 
 
 def listar_produtos(request):

@@ -56,7 +56,15 @@
 
     {# ============== CONTEÚDO DO PERFIL ============== #}
 
-    <div class="profile-avatar"></div>
+    <div style="display:flex; justify-content:center; margin-top:16px; margin-bottom:8px;">
+    {% if vendedor.foto_perfil %}
+        <img src="{{ vendedor.foto_perfil.url }}"
+             alt="Foto de {{ vendedor.nome_venda }}"
+             class="avatar-perfil">
+    {% else %}
+        <div class="avatar-perfil avatar-placeholder"></div>
+    {% endif %}
+    </div>
 
     <div class="profile-name">
         {{ vendedor.nome_venda }}

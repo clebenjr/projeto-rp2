@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}App Vendedores{% endblock %}</title>
+    <title>{% block title %}UniFood{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <style>
@@ -220,6 +220,17 @@
             list-style: none;
             margin-bottom: 4px;
             color: var(--danger);
+        }
+        .avatar-perfil {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            object-fit: cover;      /* corta sem distorcer */
+            display: block;
+        }
+
+        .avatar-placeholder {
+            background: #ddd;       /* bolinha cinza quando não tem foto */
         }
     </style>
 

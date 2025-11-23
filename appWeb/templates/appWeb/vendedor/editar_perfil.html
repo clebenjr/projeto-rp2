@@ -10,8 +10,34 @@
 {% endblock %}
 
 {% block content %}
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
+
+        <div style="margin-top: 12px; margin-bottom: 16px; text-align:center;">
+
+        <div style="display:flex; justify-content:center; margin-top:16px; margin-bottom:8px;">
+            {% if vendedor.foto_perfil %}
+                <img src="{{ vendedor.foto_perfil.url }}"
+                    alt="Foto de {{ vendedor.nome_venda }}"
+                    class="avatar-perfil">
+            {% else %}
+                <div class="avatar-perfil avatar-placeholder"></div>
+            {% endif %}
+        </div>
+        <!-- Input para trocar a foto -->
+        <label style="font-size:14px; color:#4b3840;">Foto de perfil</label>
+        <input type="file"
+            name="foto_perfil"
+            accept="image/*"
+            style="
+                    display:block;
+                    margin:8px auto 0;
+                    padding:6px;
+                    border-radius:10px;
+                    background:#dedede;
+                    width:85%;
+            ">
+        </div>
 
         <div class="input-group">
             <div class="input-label">E-mail</div>
@@ -63,8 +89,7 @@
             <input class="input-field" type="text" name="local_principal_venda"
                    value="{{ form.local_principal_venda.value|default_if_none:'' }}">
         </div>
-
-        <div class="input-group">
+         <div class="input-group">
             <div class="input-label">Disponibilidade</div>
             <label class="toggle-row">
                 <input type="checkbox" name="status_disponivel"
@@ -77,6 +102,7 @@
             </label>
         </div>
 
+   
         <button type="submit" class="btn-primary">Salvar</button>
     </form>
 {% endblock %}

@@ -14,7 +14,7 @@
 
 {% block content %}
     <form method="post" action="{% url 'cadastro' %}"
-          style="max-width:360px; margin:12px auto 0;">
+          style="max-width:360px; margin:12px auto 0;"  enctype="multipart/form-data">
         {% csrf_token %}
 
         <div class="input-group" style="margin-bottom:10px;">
@@ -71,6 +71,15 @@
             <input class="input-field"
                    style="padding:7px 12px; border-radius:16px; font-size:13px;"
                    type="text" name="local_principal_venda">
+        </div>
+
+        
+        <div class="input-group">
+        <div class="input-label">Foto de perfil</div>
+        <input class="input-field"
+               type="file"
+               name="foto_perfil"  
+               accept="image/*">
         </div>
 
         <button type="submit"

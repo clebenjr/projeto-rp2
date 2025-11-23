@@ -10,7 +10,8 @@ class VendedorForm(forms.ModelForm):
         fields = [
             "email", "senha", "nome_completo",
             "nome_venda", "celular", "local_principal_venda",
-            "status_disponivel"
+            "status_disponivel",
+            "foto_perfil"
         ]
 
 

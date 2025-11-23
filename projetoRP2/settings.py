@@ -28,7 +28,16 @@ SECRET_KEY = 'django-insecure-qeg0km3@gctj7-zy%_3l8&nnwkuv6%_2p9xbv4o%h%vz96tjui
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
 # Example: set ALLOWED_HOSTS env var to 'your-app.herokuapp.com,localhost'
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost').split(',')
+_hosts_env = os.environ.get('ALLOWED_HOSTS', '')
+if _hosts_env:
+    # split on commas, strip whitespace, ignore empty entries
+    ALLOWED_HOSTS = [h.strip() for h in _hosts_env.split(',') if h.strip()]
+    # allow wildcard '*' to mean allow all hosts
+    if '*' in ALLOWED_HOSTS:
+        ALLOWED_HOSTS = ['*']
+else:
+    # sensible defaults for local development
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 

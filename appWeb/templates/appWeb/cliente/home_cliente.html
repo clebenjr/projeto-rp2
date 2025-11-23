@@ -1,25 +1,27 @@
 {% extends "base.html" %}
 
-{% block title %}App - Produtos{% endblock %}
+{% block title %}UniFood - Produtos{% endblock %}
 
 {% block header %}
 <header class="app-header" style="background:#4b3840; justify-content:space-between;">
-    <!-- menu lateral, se quiser usar no futuro -->
-    <button class="btn-icon" style="color:#fff; font-size:22px;">☰</button>
 
-    <h1 style="font-size:16px;">App</h1>
-
-    <!-- três pontinhos abrindo a tela de login/cadastro p/ vendedores -->
-    <a href="{% url 'info_vendedores' %}" class="btn-icon" style="color:#fff; font-size:24px;">
-        ⋮
+    <!-- AGORA o hambúrguer abre o menu de vendedores -->
+    <a href="{% url 'info_vendedores' %}"
+    style="color:#fff; font-size:22px; text-decoration:none; display:inline-block;">
+        ☰
     </a>
+
+    <h1 style="font-size:16px;">UniFood</h1>
+
+    <!-- Ícone da direita por enquanto é só decorativo (ou você pode ligar a outro recurso depois) -->
+    <button class="btn-icon" style="color:#fff; font-size:20px;">
+    </button>
 </header>
 {% endblock %}
 
 {% block content %}
     <!-- barra de filtro + busca -->
     <form method="get" class="row-between" style="margin-bottom:12px; gap:8px;">
-        <button type="button" class="btn-icon" style="font-size:22px;">⚲</button>
         <div style="flex:1; position:relative;">
             <input type="text" name="q" value="{{ busca }}"
                    class="input-field"
@@ -41,7 +43,10 @@
                         {{ produto.nome }}
                     </div>
                     <div style="font-size:12px; color:#777;">
-                        {{ produto.vendedor.nome_venda }}
+                        <a href="{% url 'detalhe_vendedor_cliente' produto.vendedor.id %}"
+                        style="color:#777; text-decoration:none;">
+                            {{ produto.vendedor.nome_venda }}
+                        </a>
                     </div>
                 </div>
 

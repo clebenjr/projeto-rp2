@@ -33,7 +33,10 @@
     </div>
 
     <div style="font-size:13px; color:#777; margin-bottom:16px;">
-        {{ produto.vendedor.nome_venda }}
+        <a href="{% url 'detalhe_vendedor_cliente' produto.vendedor.id %}"
+        style="color:#777; text-decoration:none;">
+            {{ produto.vendedor.nome_venda }}
+        </a>
     </div>
 
     <hr style="border:none; border-top:1px solid #e0e0e0; margin-bottom:16px;">

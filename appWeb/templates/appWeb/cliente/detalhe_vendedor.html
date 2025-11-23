@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}{{ vendedor.nome_venda }}{% endblock %}
+
+{% block header %}
+<header class="app-header" style="background:#4b3840; justify-content:space-between;">
+    <a href="javascript:history.back()" style="color:#fff; text-decoration:none; font-size:20px;">
+        &larr;
+    </a>
+    <h1 style="font-size:16px;">App</h1>
+    <span></span>
+</header>
+{% endblock %}
+
+{% block content %}
+    <div class="profile-avatar"></div>
+
+    <div class="profile-name">
+        {{ vendedor.nome_venda }}
+    </div>
+
+    <div style="text-align:center; font-size:13px; margin-top:4px;">
+        {% if vendedor.status_disponivel %}
+            <span class="text-success">● Vendendo agora</span>
+        {% else %}
+            <span class="text-danger">● Indisponível</span>
+        {% endif %}
+    </div>
+
+    <div class="profile-location" style="margin-top:4px;">
+        {{ vendedor.local_principal_venda|default:"Local não informado" }}
+    </div>
+
+    <div style="margin-top:16px; margin-bottom:8px;">
+        {% if whatsapp_link %}
+            <a href="{{ whatsapp_link }}" target="_blank" style="text-decoration:none;">
+                <div class="btn-primary">Entrar em contato</div>
+            </a>
+        {% else %}
+            <div class="btn-primary" style="opacity:0.7;">Contato não disponível</div>
+        {% endif %}
+    </div>
+
+    <div class="products-section-title">
+        Produtos à venda
+    </div>
+
+    {% for produto in produtos %}
+        <a href="{% url 'detalhe_produto_cliente' produto.id %}"
+           style="text-decoration:none; color:inherit;">
+            <div class="product-card">
+                <div class="product-image"
+                     style="{% if produto.imagem %}background-image:url('{{ produto.imagem.url }}');{% endif %}">
+                </div>
+                <div class="product-info">
+                    <div class="product-name">{{ produto.nome }}</div>
+                </div>
+                <div class="product-price">
+                    R$ {{ produto.preco }}
+                </div>
+            </div>
+        </a>
+    {% empty %}
+        <p style="font-size:14px; color:#777;">Nenhum produto disponível no momento.</p>
+    {% endfor %}
+{% endblock %}

@@ -1,30 +1,51 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}App - Início{% endblock %}
+{% block title %}UniFood - Início{% endblock %}
 
 {% block content %}
-    <div style="height: 60vh; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+<div style="
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+">
 
-        <h1 style="font-size:40px; color:#9b9b9b; margin-bottom:12px;">
-            App
-        </h1>
+    <!-- Logo rosquinha em forma de U -->
 
-        <p style="font-size:14px; color:#777; margin-bottom:24px;">
-            Continuar como:
-        </p>
 
-        <a href="{% url 'login' %}"
-           style="text-decoration:none; width:70%; margin-bottom:12px;">
-            <div class="btn-primary" style="width:100%; text-align:center;">
-                Vendedor
-            </div>
-        </a>
+    <img src="{% static 'appWeb/img/logorp2.png' %}"
+     alt="Logo UniFood"
+     style="width: 120px; height: auto; margin-bottom: 4px;">
 
-        <a href="{% url 'home_cliente' %}"
-           style="text-decoration:none; width:70%;">
-            <div class="btn-primary" style="width:100%; text-align:center;">
-                Comprador
-            </div>
-        </a>
-    </div>
+    <!-- Nome do app -->
+    <h1 style="font-size: 32px; font-weight: 700; color: #4b3840; margin: 0;">
+        UniFood
+    </h1>
+
+    <p style="font-size: 14px; color: #777; margin-top: 4px; margin-bottom: 20px;">
+        Continuar como:
+    </p>
+
+    <!-- Botão Vendedor -->
+    <a href="{% url 'login' %}"
+       style="text-decoration: none; width: 70%; max-width: 320px;">
+        <div class="btn-primary"
+             style="width: 100%; text-align: center; margin-bottom: 10px;">
+            Vendedor
+        </div>
+    </a>
+
+    <!-- Botão Comprador -->
+    <a href="{% url 'home_cliente' %}"
+       style="text-decoration: none; width: 70%; max-width: 320px;">
+        <div class="btn-primary"
+             style="width: 100%; text-align: center;">
+            Comprador
+        </div>
+    </a>
+
+</div>
 {% endblock %}

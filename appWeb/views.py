@@ -224,3 +224,25 @@ def detalhe_produto_cliente(request, produto_id):
         "whatsapp_link": whatsapp_link,
     }
     return render(request, "appWeb/cliente/detalhe_produto.html", context)
+
+
+def detalhe_vendedor_cliente(request, vendedor_id):
+    """
+    Tela de perfil do vendedor na visão do comprador.
+    Mostra dados do vendedor + lista de produtos disponíveis dele.
+    """
+    vendedor = get_object_or_404(Vendedor, id=vendedor_id, status_disponivel=True)
+
+    produtos = vendedor.produtos.filter(status_disponivel=True)
+
+    whatsapp_link = ""
+    if vendedor.celular:
+        numero = "".join(filter(str.isdigit, vendedor.celular))
+        whatsapp_link = f"https://wa.me/55{numero}"
+
+    context = {
+        "vendedor": vendedor,
+        "produtos": produtos,
+        "whatsapp_link": whatsapp_link,
+    }
+    return render(request, "appWeb/cliente/detalhe_vendedor.html", context)

@@ -1,2 +1,6 @@
 # Ignore Python virtual environment folder
+.venv/
 venv/
+appWeb/__pycache__/
+projetoRP2/__pycache__/
+appWeb/migrations/__pycache__/

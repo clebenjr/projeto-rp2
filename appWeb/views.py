@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
@@ -23,6 +24,13 @@ def login_vendedor(request):
         return redirect("painel_vendedor")
 
     if request.method == "POST":
+        # Optional debug logging for E2E investigation: set E2E_DEBUG=1 in env
+        if os.environ.get('E2E_DEBUG') == '1':
+            try:
+                print('E2E_DEBUG: POST data ->', dict(request.POST))
+                print('E2E_DEBUG: META ->', {k: request.META.get(k) for k in ['HTTP_HOST','CONTENT_TYPE','CONTENT_LENGTH','REMOTE_ADDR']})
+            except Exception:
+                pass
         email = request.POST.get("email")
         senha = request.POST.get("senha")
         vendedor = Vendedor.objects.filter(email=email).first()

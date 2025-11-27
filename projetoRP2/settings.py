@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -117,6 +116,16 @@ DATABASES = {
 # not set and uses Postgres on Heroku when the add-on sets DATABASE_URL.
 _db_url = os.environ.get('DATABASE_URL')
 if _db_url:
+    # Import here so deploys that don't have dj-database-url installed
+    # (or when DATABASE_URL isn't set) won't fail at import time.
+    try:
+        import dj_database_url
+    except Exception:
+        raise ImportError(
+            "dj-database-url is required when DATABASE_URL is set. "
+            "Install it (add to requirements.txt) or unset DATABASE_URL."
+        )
+
     DATABASES = {
         'default': dj_database_url.parse(_db_url, conn_max_age=600, ssl_require=not DEBUG)
     }

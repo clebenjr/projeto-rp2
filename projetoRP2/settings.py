@@ -43,6 +43,12 @@ else:
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# If CLOUDINARY_URL is provided, use Cloudinary for media storage (prevents
+# relying on Heroku ephemeral filesystem). Set CLOUDINARY_URL env var like:
+# cloudinary://API_KEY:API_SECRET@CLOUD_NAME
+if os.environ.get('CLOUDINARY_URL'):
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 # Application definition
 
@@ -56,6 +62,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'appWeb',
     'anymail',
+    # Cloudinary storage for media (optional, enabled when CLOUDINARY_URL is set)
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 # Optional: Anymail (SendGrid) support. If installed and SENDGRID_API_KEY is set

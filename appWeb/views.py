@@ -26,17 +26,35 @@ def login_vendedor(request):
         email = request.POST.get("email")
         senha = request.POST.get("senha")
         vendedor = Vendedor.objects.filter(email=email).first()
-        if vendedor and check_password(senha, vendedor.senha):
+        authenticated = False
+        if vendedor:
+            # Normal path: check hashed password
+            try:
+                if check_password(senha, vendedor.senha):
+                    authenticated = True
+            except Exception:
+                # If stored senha is not a hashed value (legacy/plain), fall back
+                authenticated = False
+
+            # Migration helper: if the stored senha appears to be plain and matches,
+            # re-hash it and persist so future logins use secure hashing.
+            if not authenticated and vendedor.senha and vendedor.senha == senha:
+                vendedor.senha = make_password(senha)
+                vendedor.save()
+                authenticated = True
+
+        if authenticated:
             if not getattr(vendedor, "is_active", True):
-                contexto = {"erro": "Conta não confirmada. Verifique seu e-mail."}
-                return render(request, "appWeb/vendedor/login.html", contexto)
+                messages.error(request, "Conta não confirmada. Verifique seu e-mail.")
+                return redirect("login")
             request.session["vendedor_id"] = vendedor.id
-            # só pra garantir que a sessão foi marcada como modificada
             request.session.modified = True
             return redirect("painel_vendedor")
-        else:
-            contexto = {"erro": "E-mail ou senha inválidos."}
-            return render(request, "appWeb/vendedor/login.html", contexto)
+
+        # fallback: show error message via Django messages framework
+        messages.error(request, "E-mail ou senha inválidos.")
+        # Render the login template with the submitted email so the user doesn't need to retype it
+        return render(request, "appWeb/vendedor/login.html", {"email": email})
 
     return render(request, "appWeb/vendedor/login.html")
 

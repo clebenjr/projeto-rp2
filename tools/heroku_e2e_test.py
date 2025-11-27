@@ -61,8 +61,8 @@ def main():
         req.META['HTTP_HOST'] = host
         req.META['SERVER_NAME'] = host
         req.META['SERVER_PORT'] = '80'
-        # attach session
-        SessionMiddleware().process_request(req)
+        # attach session (SessionMiddleware in newer Django requires a get_response)
+        SessionMiddleware(lambda r: None).process_request(req)
         req.session.save()
         # attach messages
         req._messages = FallbackStorage(req)

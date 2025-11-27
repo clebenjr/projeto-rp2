@@ -4,7 +4,9 @@
 
 {% block header %}
 <header class="app-header">
-    <span onclick="history.back()" style="cursor:pointer;">&larr;</span>
+    <a href="{% url 'painel_vendedor' %}" style="text-decoration:none; color:white;">
+    &larr;
+    </a>
     <h1>Produtos cadastrados</h1>
 </header>
 {% endblock %}

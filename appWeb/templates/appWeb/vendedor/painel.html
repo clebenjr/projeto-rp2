@@ -34,8 +34,25 @@
         <h2 style="margin-top: 0; font-size: 18px;">Menu</h2>
 
         <a href="{% url 'logout' %}"
-           style="display:block; margin-top:20px; color:white; text-decoration:none; font-size:16px;">
+        style="
+            display:block;
+            margin-top:20px;
+            color:white;
+            text-decoration:none;
+            font-size:16px;
+        ">
             🔐 Logout
+        </a>
+
+        <a href="{% url 'alterar_senha_vendedor' %}"
+        style="
+            display:block;
+            margin-top:12px;
+            color:white;
+            text-decoration:none;
+            font-size:16px;
+        ">
+            🔑 Alterar senha
         </a>
     </div>
 

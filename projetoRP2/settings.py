@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -110,6 +111,15 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# If Heroku (or any environment) provides DATABASE_URL, use it to configure
+# the default database. This keeps SQLite for local dev when DATABASE_URL is
+# not set and uses Postgres on Heroku when the add-on sets DATABASE_URL.
+_db_url = os.environ.get('DATABASE_URL')
+if _db_url:
+    DATABASES = {
+        'default': dj_database_url.parse(_db_url, conn_max_age=600, ssl_require=not DEBUG)
+    }
 
 
 # Password validation

@@ -1,0 +1,355 @@
+[
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2025-11-23T18:41:02.975Z",
+    "user": 2,
+    "content_type": 8,
+    "object_id": "5",
+    "object_repr": "dilva",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Senha\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2025-11-23T18:47:13.992Z",
+    "user": 2,
+    "content_type": 8,
+    "object_id": "2",
+    "object_repr": "samuel venda",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Senha\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2025-11-23T18:47:22.247Z",
+    "user": 2,
+    "content_type": 8,
+    "object_id": "4",
+    "object_repr": "moreira vende",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Senha\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2025-11-23T19:32:56.765Z",
+    "user": 2,
+    "content_type": 8,
+    "object_id": "5",
+    "object_repr": "dilva",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Senha\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2025-11-23T19:33:25.397Z",
+    "user": 2,
+    "content_type": 8,
+    "object_id": "5",
+    "object_repr": "dilva",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Foto perfil\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2025-11-23T19:44:49.704Z",
+    "user": 2,
+    "content_type": 8,
+    "object_id": "5",
+    "object_repr": "dilva",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Senha\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2025-11-23T20:11:19.116Z",
+    "user": 2,
+    "content_type": 8,
+    "object_id": "6",
+    "object_repr": "aaa",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Senha\"]}}]"
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$tlbaUZOcEvS36TTsXD9gPf$gtEG749d+hsZhaJLS+X+f9IeJxwDp3S13OmTcSeJVZQ=",
+    "last_login": "2025-11-23T20:12:41.126Z",
+    "is_superuser": true,
+    "username": "samuel",
+    "first_name": "",
+    "last_name": "",
+    "email": "samuel.bs66@usp.br",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-11-23T18:29:46.947Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "6m78rk3f0nfx8wa2qubbewxwv74uogbq",
+  "fields": {
+    "session_data": "eyJ2ZW5kZWRvcl9pZCI6N30:1vNHJz:JOAe4kqx3gBtW7Z3Mp5C_h5bJkTZPFu379T6GvtEUIU",
+    "expire_date": "2025-12-07T21:08:35.714Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "82qrlzy8rfpjijz7rbumlu5qcydu9nit",
+  "fields": {
+    "session_data": ".eJxVjL0OAiEQhN-F2pCD4MJa2vsMZJcfOTWQHHeV8d3lkiu0mWK-b-YtPG1r8VtPi5-juAgtTr8dU3imuoP4oHpvMrS6LjPLXZEH7fLWYnpdD_fvoFAvY02UUCOQVcBuhA6GkR0yuMlaldE4R2cC1hFsVJNSZniEEBPmzFp8vtCvN48:1vNGNa:es6gD3QtzJhLqEme44YBEnBn-qMCMmnlop3v-rJ2Qws",
+    "expire_date": "2025-12-07T20:08:14.558Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "fp5ii5c9lhgetg353o7x22vda2ihas05",
+  "fields": {
+    "session_data": ".eJxVjL0OAiEQhN-F2pCD4MJa2vsMZJcfOTWQHHeV8d3lkiu0mWK-b-YtPG1r8VtPi5-juAgtTr8dU3imuoP4oHpvMrS6LjPLXZEH7fLWYnpdD_fvoFAvY02UUCOQVcBuhA6GkR0yuMlaldE4R2cC1hFsVJNSZniEEBPmzFp8vtCvN48:1vNG0r:5nP8-kkcaQ1yaRJc7pB09A8YRoOZr4whFak03CubA6o",
+    "expire_date": "2025-12-07T19:44:45.842Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "is384xsh085fpz7ygw04gez3is2ruoyf",
+  "fields": {
+    "session_data": ".eJxVjr0OwjAQg98lM4qaKFxyjOw8Q3TXS0kBJVJ_WBDvTio6wOLB_mz5pSKtS47rnKY4ijopqw6_HlN_T2UL5EblWnVfyzKNrDdE7-msL1XS47yzfwOZ5tzaRAktAnkDHJrY3jFyQIbQeW8GdCHQkYCtgBfTGeMaRwiScBh4e_Vs20nq96d7fwB2JDzw:1vNGSJ:rLEp8YpUOvJ073N0EVbS7kDc0aXOmMGsc7xWSkjINR8",
+    "expire_date": "2025-12-07T20:13:07.475Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "sh3wowc2ksih9stlt2fe1o21t9v9xymr",
+  "fields": {
+    "session_data": ".eJxVjMsOwiAQRf-FtSEMAjN16b7fQIZHpWogKe3K-O_apAvd3nPOfQnP21r81vPi5yQuAsTpdwscH7nuIN253pqMra7LHOSuyIN2ObaUn9fD_Tso3Mu3JnZnIIMpR0QXFRgkp2NybAAyB0wDWGusQsV2AlLMrHnSREG5kAfx_gDHwzdo:1v9jnL:TGOpmOMT5vuk-fGhOfoMR4xHPNcdyvDsZDguNi3LiFY",
+    "expire_date": "2025-10-31T12:42:55.232Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "spzc4yhb05pkzwklugrt8i0gzytw2bis",
+  "fields": {
+    "session_data": "eyJ2ZW5kZWRvcl9pZCI6OH0:1vNHM1:B1O8bCoc83S9tG_Vd9nyHB9qmYGgI8zbg3Yr5evM5H4",
+    "expire_date": "2025-12-07T21:10:41.606Z"
+  }
+},
+{
+  "model": "appWeb.vendedor",
+  "pk": 1,
+  "fields": {
+    "email": "samuel.bs66@usp.br",
+    "senha": "",
+    "is_active": false,
+    "nome_completo": "samuel",
+    "nome_venda": "samuel vendedor",
+    "celular": "11 911499506",
+    "local_principal_venda": "saida bandejão",
+    "status_disponivel": true,
+    "foto_perfil": "",
+    "criado_em": "2025-11-14T00:08:54.529Z",
+    "atualizado_em": "2025-11-14T00:12:23.835Z"
+  }
+},
+{
+  "model": "appWeb.vendedor",
+  "pk": 2,
+  "fields": {
+    "email": "samuel.bs66@gmail.com",
+    "senha": "123",
+    "is_active": false,
+    "nome_completo": "samuel",
+    "nome_venda": "samuel venda",
+    "celular": "11911499506",
+    "local_principal_venda": "bandeco",
+    "status_disponivel": true,
+    "foto_perfil": "",
+    "criado_em": "2025-11-14T13:25:32.143Z",
+    "atualizado_em": "2025-11-23T18:47:13.991Z"
+  }
+},
+{
+  "model": "appWeb.vendedor",
+  "pk": 3,
+  "fields": {
+    "email": "s@gmail.com",
+    "senha": "",
+    "is_active": false,
+    "nome_completo": "samu",
+    "nome_venda": "sbz",
+    "celular": "11911499506",
+    "local_principal_venda": "graminha",
+    "status_disponivel": true,
+    "foto_perfil": "",
+    "criado_em": "2025-11-14T16:34:49.276Z",
+    "atualizado_em": "2025-11-14T16:35:19.193Z"
+  }
+},
+{
+  "model": "appWeb.vendedor",
+  "pk": 4,
+  "fields": {
+    "email": "teste@gmail.com",
+    "senha": "123",
+    "is_active": false,
+    "nome_completo": "vinicius moreira",
+    "nome_venda": "moreira vende",
+    "celular": "11911499506",
+    "local_principal_venda": "bandejãoooo",
+    "status_disponivel": true,
+    "foto_perfil": "",
+    "criado_em": "2025-11-23T13:50:19.140Z",
+    "atualizado_em": "2025-11-23T18:47:22.247Z"
+  }
+},
+{
+  "model": "appWeb.vendedor",
+  "pk": 5,
+  "fields": {
+    "email": "dilva@gmail.com",
+    "senha": "",
+    "is_active": false,
+    "nome_completo": "samuel",
+    "nome_venda": "dilva",
+    "celular": "11911499506",
+    "local_principal_venda": "bandeco",
+    "status_disponivel": true,
+    "foto_perfil": "vendedores/perfis/ovd_0p8svRp.png",
+    "criado_em": "2025-11-23T18:04:09.186Z",
+    "atualizado_em": "2025-11-23T19:58:10.743Z"
+  }
+},
+{
+  "model": "appWeb.vendedor",
+  "pk": 6,
+  "fields": {
+    "email": "a@gmail.com",
+    "senha": "",
+    "is_active": false,
+    "nome_completo": "asdfasd",
+    "nome_venda": "aaa",
+    "celular": "1911499506",
+    "local_principal_venda": "saf",
+    "status_disponivel": true,
+    "foto_perfil": "vendedores/perfis/itc_logo_tf0ZHjj.png",
+    "criado_em": "2025-11-23T20:07:40.549Z",
+    "atualizado_em": "2025-11-23T20:11:44.336Z"
+  }
+},
+{
+  "model": "appWeb.vendedor",
+  "pk": 7,
+  "fields": {
+    "email": "testuser2@example.com",
+    "senha": "pbkdf2_sha256$1000000$oUVDa8bjg4BIEgHNrIDiOX$l41WvAWR516ToSmipylkUnPhgTJR952mea8fRdPtrxg=",
+    "is_active": true,
+    "nome_completo": "Test User2",
+    "nome_venda": "TestVendor2",
+    "celular": "+5511999999999",
+    "local_principal_venda": "Campus",
+    "status_disponivel": true,
+    "foto_perfil": "",
+    "criado_em": "2025-11-23T21:08:35.424Z",
+    "atualizado_em": "2025-11-23T21:08:35.461Z"
+  }
+},
+{
+  "model": "appWeb.vendedor",
+  "pk": 8,
+  "fields": {
+    "email": "testuser_1763932240@example.com",
+    "senha": "pbkdf2_sha256$1000000$8Do0QBAWQKYlJzCkRGfNoW$aNg8rPZgeJTw+1IsIOGOehy/B2znJfHfso7/NSvBBGI=",
+    "is_active": true,
+    "nome_completo": "Test User2",
+    "nome_venda": "TestVendor2",
+    "celular": "+5511999999999",
+    "local_principal_venda": "Campus",
+    "status_disponivel": true,
+    "foto_perfil": "",
+    "criado_em": "2025-11-23T21:10:40.815Z",
+    "atualizado_em": "2025-11-23T21:10:40.861Z"
+  }
+},
+{
+  "model": "appWeb.produto",
+  "pk": 3,
+  "fields": {
+    "vendedor": 2,
+    "nome": "Samuel Azevedo",
+    "imagem": "produtos/image001_7JFWioH.png",
+    "preco": "20.00",
+    "descricao": "Joolsadflçonodfononofdjoi",
+    "status_disponivel": true,
+    "criado_em": "2025-11-14T13:27:56.569Z",
+    "atualizado_em": "2025-11-14T13:27:56.569Z"
+  }
+},
+{
+  "model": "appWeb.produto",
+  "pk": 4,
+  "fields": {
+    "vendedor": 3,
+    "nome": "produto sbz",
+    "imagem": "produtos/mrb_Tb8Z0DU.png",
+    "preco": "78.00",
+    "descricao": "testes teste lore episum",
+    "status_disponivel": true,
+    "criado_em": "2025-11-14T16:36:27.880Z",
+    "atualizado_em": "2025-11-14T16:36:27.880Z"
+  }
+},
+{
+  "model": "appWeb.produto",
+  "pk": 6,
+  "fields": {
+    "vendedor": 5,
+    "nome": "asdflhjkh",
+    "imagem": "produtos/guobs2_a5CENlN.jpg",
+    "preco": "22.00",
+    "descricao": "asdfasdfasdlfkjlçajçmlkjasldkfjasdf",
+    "status_disponivel": true,
+    "criado_em": "2025-11-23T19:46:33.699Z",
+    "atualizado_em": "2025-11-23T19:46:33.699Z"
+  }
+},
+{
+  "model": "appWeb.imagemproduto",
+  "pk": 7,
+  "fields": {
+    "produto": 6,
+    "imagem": "produtos/catalogo/Guobs1_z2HMyUL_Cpwf4wv.jpg",
+    "criado_em": "2025-11-23T19:46:33.710Z"
+  }
+},
+{
+  "model": "appWeb.imagemproduto",
+  "pk": 8,
+  "fields": {
+    "produto": 6,
+    "imagem": "produtos/catalogo/Race_Top-500_EBmvowW.avif",
+    "criado_em": "2025-11-23T19:46:33.714Z"
+  }
+}
+]

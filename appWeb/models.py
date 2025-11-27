@@ -44,13 +44,6 @@ class Produto(models.Model):
         upload_to="produtos/",
         null=True,
         blank=True,
-        help_text="Arquivo da figura (brigadeiro, brownie, etc.)"
-    )
-
-    imagem = models.ImageField(
-        upload_to="produtos/",
-        null=True,
-        blank=True,
         help_text="Imagem principal (aparece nas listas)"
     )
 

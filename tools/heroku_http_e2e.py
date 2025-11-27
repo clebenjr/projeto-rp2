@@ -70,13 +70,21 @@ def main():
     ok('Fetched login page and CSRF')
 
     # --- POST valid credentials
-    headers = {'Referer': login_url}
+    headers = {'Referer': login_url, 'User-Agent': 'heroku-http-e2e/1.0'}
     data = {'email': test_email, 'senha': test_password, 'csrfmiddlewaretoken': csrf}
+    print('Cookies before POST:', sess.cookies.get_dict())
     r2 = sess.post(login_url, data=data, headers=headers, allow_redirects=False, timeout=30)
+    print('POST status:', r2.status_code)
+    print('Response headers:', dict(r2.headers))
+    print('Cookies after POST:', sess.cookies.get_dict())
+    if r2.history:
+        print('Redirect history statuses:', [h.status_code for h in r2.history])
     if r2.status_code not in (301, 302):
         # show snippet for debugging
         print('Status:', r2.status_code)
-        print('Response snippet:', r2.text[:800])
+        print('Response snippet:', r2.text[:1200])
+        if 'E-mail ou senha inválidos' in r2.text:
+            print('Found failure message in response HTML')
         fail('Login POST did not redirect on valid credentials')
     ok('Login POST redirected (success)')
 

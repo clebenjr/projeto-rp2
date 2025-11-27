@@ -109,17 +109,21 @@ WSGI_APPLICATION = 'projetoRP2.wsgi.application'
 # On Heroku the DATABASE_URL env var will be provided by the Heroku Postgres addon.
 # dj-database-url parses that URL into Django's DATABASES setting. When DATABASE_URL
 # is not set (local development) we fall back to a local sqlite database.
-DATABASES = {
-    'default': dj_database_url.config(
-        default=str(BASE_DIR / 'db.sqlite3'),
-        conn_max_age=600,
-        engine='django.db.backends.sqlite3'
-    )
-}
-
-# If dj_database_url returned a simple path string for sqlite, ensure proper ENGINE.
-if DATABASES['default'].get('ENGINE', '').endswith('sqlite3') and 'NAME' not in DATABASES['default']:
-    DATABASES['default']['NAME'] = str(BASE_DIR / 'db.sqlite3')
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    # Parse the DATABASE_URL provided by Heroku and use it as the default DB.
+    # Enable SSL requirement which is common for managed Postgres on Heroku/AWS.
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True)
+    }
+else:
+    # Local development fallback to sqlite
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': str(BASE_DIR / 'db.sqlite3'),
+        }
+    }
 
 
 # Password validation

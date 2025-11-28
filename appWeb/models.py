@@ -75,3 +75,27 @@ class ImagemProduto(models.Model):
 
     def __str__(self):
         return f"Imagem de {self.produto.nome} ({self.id})"
+
+
+# If Cloudinary storage is available at runtime, attach it to the ImageField
+# instances so uploads always use Cloudinary even if the default_storage
+# instance was created earlier as a filesystem storage.
+try:
+    from cloudinary_storage.storage import MediaCloudinaryStorage
+    _cloud_storage = MediaCloudinaryStorage()
+except Exception:
+    _cloud_storage = None
+
+if _cloud_storage:
+    try:
+        Vendedor._meta.get_field('foto_perfil').storage = _cloud_storage
+    except Exception:
+        pass
+    try:
+        Produto._meta.get_field('imagem').storage = _cloud_storage
+    except Exception:
+        pass
+    try:
+        ImagemProduto._meta.get_field('imagem').storage = _cloud_storage
+    except Exception:
+        pass

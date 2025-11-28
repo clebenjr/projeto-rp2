@@ -1,241 +1,60 @@
 {% extends "base.html" %}
 
-{% block title %}Produtos cadastrados{% endblock %}
-
-{% block extra_head %}
-<style>
-    .produtos-wrapper {
-        margin-top: 8px;
-    }
-
-    .product-card {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: #f8f8f8;
-        border-radius: 12px;
-        padding: 8px 10px;
-        margin-bottom: 8px;
-    }
-
-    .product-info-left {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .product-thumbnail {
-        width: 52px;
-        height: 52px;
-        border-radius: 8px;
-        background-color: #ddd;
-        background-size: cover;
-        background-position: center;
-        flex-shrink: 0;
-    }
-
-    .product-text {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-    }
-
-    .product-name {
-        font-size: 14px;
-        font-weight: 500;
-    }
-
-    .product-status {
-        font-size: 12px;
-    }
-
-    .product-price {
-        font-size: 14px;
-        font-weight: 600;
-    }
-
-    .product-actions {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 4px;
-    }
-
-    .product-icons {
-        display: flex;
-        gap: 6px;
-        font-size: 16px;
-    }
-
-    .product-icons a {
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    /* Botões e modal */
-
-    .hidden {
-        display: none;
-    }
-
-    .modal-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.45);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-    }
-
-    .modal-box {
-        background: #ffffff;
-        border-radius: 16px;
-        padding: 18px 16px;
-        width: 90%;
-        max-width: 360px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-    }
-
-    .modal-title {
-        font-size: 18px;
-        font-weight: 600;
-        margin-bottom: 8px;
-    }
-
-    .modal-text {
-        font-size: 14px;
-        margin-bottom: 16px;
-        color: #444;
-    }
-
-    .modal-buttons {
-        display: flex;
-        gap: 8px;
-        margin-top: 8px;
-    }
-
-    .modal-btn {
-        flex: 1;
-        padding: 10px;
-        border-radius: 20px;
-        border: none;
-        font-size: 14px;
-        cursor: pointer;
-    }
-
-    .modal-btn-cancel {
-        background: #eeeeee;
-        color: #333333;
-    }
-
-    .modal-btn-delete {
-        background: #d9534f;
-        color: #ffffff;
-    }
-</style>
-
-<script>
-    let deleteUrl = "";
-
-    function openDeleteModal(url, nomeProduto) {
-        deleteUrl = url;
-        document.getElementById("modal-product-name").innerText = nomeProduto;
-        document.getElementById("delete-modal").classList.remove("hidden");
-    }
-
-    function closeDeleteModal() {
-        document.getElementById("delete-modal").classList.add("hidden");
-        deleteUrl = "";
-    }
-
-    function confirmDelete() {
-        if (deleteUrl) {
-            // chama a MESMA view de exclusão que você já usa
-            window.location.href = deleteUrl;
-        }
-    }
-</script>
-{% endblock %}
+{% block title %}Editar Produto{% endblock %}
 
 {% block header %}
 <header class="app-header">
     <span onclick="history.back()" style="cursor:pointer;">&larr;</span>
-    <h1>Produtos cadastrados</h1>
+    <h1>Editar Produto</h1>
 </header>
 {% endblock %}
 
 {% block content %}
-<div class="produtos-wrapper">
-    {% if produtos %}
-        {% for produto in produtos %}
-            <div class="product-card">
-                <div class="product-info-left">
-                    <div class="product-thumbnail"
-                         style="{% if produto.imagem %}background-image:url('{{ produto.imagem.url }}');{% endif %}">
-                    </div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
 
-                    <div class="product-text">
-                        <div class="product-name">{{ produto.nome }}</div>
-                        <div class="product-status">
-                            {% if produto.status_disponivel %}
-                                <span class="text-success">Disponível</span>
-                            {% else %}
-                                <span class="text-danger">Indisponível</span>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="product-actions">
-                    <div class="product-price">
-                        R$ {{ produto.preco }}
-                    </div>
-                    <div class="product-icons">
-                        <!-- editar -->
-                        <a href="{% url 'editar_produto' produto.id %}" title="Editar">
-                            ✏️
-                        </a>
-
-                        <!-- excluir com pop-up -->
-                        <a href="#"
-                           title="Excluir"
-                           onclick="openDeleteModal('{% url 'excluir_produto' produto.id %}', '{{ produto.nome }}'); return false;">
-                            🗑
-                        </a>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    {% else %}
-        <p style="margin-top:12px; font-size:14px;">
-            Você ainda não cadastrou produtos.
-        </p>
-    {% endif %}
-</div>
-
-<!-- MODAL DE CONFIRMAÇÃO -->
-<div id="delete-modal" class="modal-overlay hidden">
-    <div class="modal-box">
-        <div class="modal-title">Remover produto?</div>
-        <div class="modal-text">
-            Tem certeza que deseja excluir
-            <strong id="modal-product-name"></strong>?
-            <br>
-            Essa ação não poderá ser desfeita.
+        <div class="input-group">
+            <div class="input-label">Nome</div>
+            <input class="input-field" type="text" name="nome"
+                   value="{{ form.nome.value|default_if_none:produto.nome }}" required>
         </div>
-        <div class="modal-buttons">
-            <button type="button"
-                    class="modal-btn modal-btn-cancel"
-                    onclick="closeDeleteModal()">
-                Cancelar
-            </button>
-            <button type="button"
-                    class="modal-btn modal-btn-delete"
-                    onclick="confirmDelete()">
-                Excluir
-            </button>
+
+        <div class="input-group">
+            <div class="input-label">Figura</div>
+            {% if produto.imagem %}
+                <div style="font-size:13px; margin-bottom:4px;">
+                    Arquivo atual: {{ produto.imagem.name }}
+                </div>
+            {% endif %}
+            <input class="input-field" type="file" name="imagem" accept="image/*">
         </div>
-    </div>
-</div>
+
+        <div class="input-group">
+            <div class="input-label">Preço</div>
+            <input class="input-field" type="number" step="0.01" name="preco"
+                   value="{{ form.preco.value|default_if_none:produto.preco }}" required>
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Descrição</div>
+            <textarea class="textarea-field" name="descricao">{{ form.descricao.value|default_if_none:produto.descricao }}</textarea>
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Disponibilidade</div>
+            <label class="toggle-row">
+                <input type="checkbox" name="status_disponivel"
+                       {% if form.status_disponivel.value or produto.status_disponivel %}checked{% endif %}>
+                {% if form.status_disponivel.value or produto.status_disponivel %}
+                    <span class="text-success">Disponível</span>
+                {% else %}
+                    <span class="text-danger">Indisponível</span>
+                {% endif %}
+            </label>
+        </div>
+
+        <button type="submit" class="btn-primary">
+            Editar
+        </button>
+    </form>
 {% endblock %}

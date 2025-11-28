@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Alterar Senha{% endblock %}
+
+{% block header %}
+<header class="app-header">
+    <span onclick="history.back()" style="cursor:pointer;">&larr;</span>
+    <h1>Alterar senha</h1>
+</header>
+{% endblock %}
+
+{% block content %}
+    <form method="post" style="max-width:360px; margin:16px auto;">
+        {% csrf_token %}
+
+        <div style="margin-top: 16px; margin-bottom: 12px; display:flex; flex-direction:column; align-items:center;">
+    
+            {% if vendedor.foto_perfil %}
+                <img src="{{ vendedor.foto_perfil.url }}"
+                    alt="Foto de {{ vendedor.nome_venda }}"
+                    class="avatar-perfil"
+                    style="display:block; margin:0 auto;">
+            {% else %}
+                <div class="avatar-perfil avatar-placeholder"
+                    style="display:block; margin:0 auto;"></div>
+            {% endif %}
+
+            <div style="margin-top:8px; font-size:14px; color:#4b3840; text-align:center;">
+                {{ vendedor.nome_venda|default:vendedor.email }}
+            </div>
+        </div>
+
+
+        <div class="input-group">
+            <div class="input-label">Senha atual</div>
+            {{ form.senha_atual }}
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Nova senha</div>
+            {{ form.senha_nova }}
+        </div>
+
+        <div class="input-group">
+            <div class="input-label">Confirmar nova senha</div>
+            {{ form.confirmar_senha_nova }}
+        </div>
+
+        <button type="submit" class="btn-primary" style="margin-top:18px;">
+            Salvar nova senha
+        </button>
+    </form>
+{% endblock %}

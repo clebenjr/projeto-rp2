@@ -11,6 +11,7 @@ urlpatterns = [
     path("logout/", views.logout_vendedor, name="logout"),
     path("cadastro/", views.cadastro_vendedor, name="cadastro"),
     path("painel/", views.painel_vendedor, name="painel_vendedor"),
+    path("vendedor/alterar-senha/", views.alterar_senha_vendedor, name="alterar_senha_vendedor"),
 
     path("perfil/editar/", views.editar_perfil, name="editar_perfil"),
 

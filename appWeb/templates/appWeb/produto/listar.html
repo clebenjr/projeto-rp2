@@ -2,50 +2,266 @@
 
 {% block title %}Produtos cadastrados{% endblock %}
 
+{% block extra_head %}
+<style>
+    .produtos-wrapper {
+        margin-top: 8px;
+    }
+
+    .product-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #f8f8f8;
+        border-radius: 12px;
+        padding: 8px 10px;
+        margin-bottom: 8px;
+    }
+
+    .product-info-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .product-thumbnail {
+        width: 52px;
+        height: 52px;
+        border-radius: 8px;
+        background-color: #ddd;
+        background-size: cover;
+        background-position: center;
+        flex-shrink: 0;
+    }
+
+    .product-text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .product-name {
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .product-status {
+        font-size: 12px;
+    }
+
+    .product-price {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .product-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+    }
+
+    .product-icons {
+        display: flex;
+        gap: 6px;
+        font-size: 16px;
+    }
+
+    .product-icons a {
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* === Modal === */
+
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    /* Correção importante: quando tiver HIDDEN, deve sumir */
+    .modal-overlay.hidden {
+        display: none !important;
+    }
+
+    .modal-box {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 18px 16px;
+        width: 90%;
+        max-width: 360px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .modal-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .modal-text {
+        font-size: 14px;
+        margin-bottom: 16px;
+        color: #444;
+    }
+
+    .modal-buttons {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+    }
+
+    .modal-btn {
+        flex: 1;
+        padding: 10px;
+        border-radius: 20px;
+        border: none;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .modal-btn-cancel {
+        background: #eeeeee;
+        color: #333333;
+    }
+
+    .modal-btn-delete {
+        background: #d9534f;
+        color: #ffffff;
+    }
+</style>
+
+<script>
+    let deleteUrl = "";
+
+    function openDeleteModal(url, nomeProduto) {
+        deleteUrl = url;
+        document.getElementById("modal-product-name").innerText = nomeProduto;
+        document.getElementById("delete-modal").classList.remove("hidden");
+    }
+
+    function closeDeleteModal() {
+        document.getElementById("delete-modal").classList.add("hidden");
+        deleteUrl = "";
+    }
+
+    function confirmDelete() {
+        if (deleteUrl) {
+            window.location.href = deleteUrl;
+        }
+    }
+
+    // Versão robusta: liga os cliques da lixeira ao modal
+    document.addEventListener("DOMContentLoaded", function () {
+        const deleteLinks = document.querySelectorAll(".js-delete-link");
+
+        deleteLinks.forEach(function (link) {
+            link.addEventListener("click", function (event) {
+                event.preventDefault();
+                const url = this.dataset.url;
+                const nome = this.dataset.nome;
+                openDeleteModal(url, nome);
+            });
+        });
+    });
+</script>
+{% endblock %}
+
 {% block header %}
 <header class="app-header">
-    <span onclick="history.back()" style="cursor:pointer;">&larr;</span>
+    <a href="{% url 'painel_vendedor' %}"
+       style="color:#fff; text-decoration:none; font-size:20px; padding:4px 6px; display:inline-block;">
+        &larr;
+    </a>
     <h1>Produtos cadastrados</h1>
 </header>
 {% endblock %}
 
 {% block content %}
-    {% for produto in produtos %}
-        <div class="product-card">
-            <div class="product-image"
-                 style="{% if produto.imagem %}background-image:url('{{ produto.imagem.url }}');{% endif %}">
-            </div>
-            <div class="product-info">
-                <div class="product-name">{{ produto.nome }}</div>
-                <div style="font-size:12px; color:#777;">
-                    {% if produto.status_disponivel %}
-                        <span class="text-success">Disponível</span>
-                    {% else %}
-                        <span class="text-danger">Indisponível</span>
-                    {% endif %}
-                </div>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
-                <div class="product-price">R$ {{ produto.preco }}</div>
-                <div>
-                    <a href="{% url 'editar_produto' produto.id %}" class="btn-icon" title="Editar">
-                        ✏️
-                    </a>
-                    <form method="post" action="{% url 'excluir_produto' produto.id %}" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn-icon text-danger" title="Excluir">
-                            🗑
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    {% empty %}
-        <p style="font-size:14px; color:#777;">Nenhum produto cadastrado ainda.</p>
-    {% endfor %}
+    <div class="produtos-wrapper">
+        {% if produtos %}
+            {% for produto in produtos %}
+                <div class="product-card">
+                    <div class="product-info-left">
+                        <div class="product-thumbnail"
+                            style="{% if produto.imagem %}background-image:url('{{ produto.imagem.url }}');{% endif %}">
+                        </div>
 
-    <!-- Botão flutuante para cadastrar produto -->
+                        <div class="product-text">
+                            <div class="product-name">{{ produto.nome }}</div>
+                            <div class="product-status">
+                                {% if produto.status_disponivel %}
+                                    <span class="text-success">Disponível</span>
+                                {% else %}
+                                    <span class="text-danger">Indisponível</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-actions">
+                        <div class="product-price">
+                            R$ {{ produto.preco }}
+                        </div>
+
+                        <div class="product-icons">
+                            <!-- editar -->
+                            <a href="{% url 'editar_produto' produto.id %}" title="Editar">
+                                ✏️
+                            </a>
+
+                            <!-- excluir -->
+                            <a href="{% url 'excluir_produto' produto.id %}"
+                            class="js-delete-link"
+                            data-url="{% url 'excluir_produto' produto.id %}"
+                            data-nome="{{ produto.nome }}"
+                            title="Excluir">
+                                🗑
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="margin-top:12px; font-size:14px;">
+                Você ainda não cadastrou produtos.
+            </p>
+        {% endif %}
+    </div>
+<!-- Botão flutuante para cadastrar produto -->
     <a href="{% url 'criar_produto' %}" class="fab" title="Cadastrar produto">
         +
     </a>
+    <!-- === MODAL DE CONFIRMAÇÃO === -->
+    <div id="delete-modal" class="modal-overlay hidden">
+        <div class="modal-box">
+            <div class="modal-title">Remover produto?</div>
+
+            <div class="modal-text">
+                Tem certeza que deseja excluir
+                <strong id="modal-product-name"></strong>?
+                <br>
+                Essa ação não poderá ser desfeita.
+            </div>
+
+            <div class="modal-buttons">
+                <button type="button"
+                        class="modal-btn modal-btn-cancel"
+                        onclick="closeDeleteModal()">
+                    Cancelar
+                </button>
+
+                <button type="button"
+                        class="modal-btn modal-btn-delete"
+                        onclick="confirmDelete()">
+                    Excluir
+                </button>
+            </div>
+        </div>
+    </div>
 {% endblock %}

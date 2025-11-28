@@ -12,7 +12,7 @@ from django.conf import settings
 
 from .models import Vendedor, Produto
 from .models import Vendedor, Produto, ImagemProduto
-from .forms import VendedorForm, ProdutoForm
+from .forms import VendedorForm, ProdutoForm, AlterarSenhaVendedorForm, VendedorPerfilForm
 
 def home(request):
     return render(request, 'appWeb/index.html')
@@ -126,27 +126,80 @@ def editar_perfil(request):
     vendedor = get_object_or_404(Vendedor, id=vendedor_id)
 
     if request.method == "POST":
-        form = VendedorForm(request.POST, request.FILES, instance=vendedor)
+        form = VendedorPerfilForm(request.POST, request.FILES, instance=vendedor)
 
         if form.is_valid():
+
+            # Validação do e-mail (campo duplicado no template)
+            email = form.cleaned_data.get("email")
+            confirmar_email = request.POST.get("confirmar_email")
+
+            if confirmar_email and confirmar_email != email:
+                messages.error(request, "Os e-mails não conferem.")
+                return render(
+                    request,
+                    "appWeb/vendedor/editar_perfil.html",
+                    {"form": form, "vendedor": vendedor},
+                )
+
+            # Salva APENAS informações do perfil
             vendedor = form.save(commit=False)
+            vendedor.save()
 
-            # Atualização de senha
-            senha_nova = request.POST.get("senha_nova")
-            if senha_nova:
-                vendedor.senha = make_password(senha_nova)
-
-            vendedor.save()  
-
-            messages.success(request, "Perfil atualizado!")
+            messages.success(request, "Perfil atualizado com sucesso!")
             return redirect("painel_vendedor")
+
     else:
-        form = VendedorForm(instance=vendedor)
+        form = VendedorPerfilForm(instance=vendedor)
 
     return render(
         request,
         "appWeb/vendedor/editar_perfil.html",
-        {"form": form, "vendedor": vendedor}
+        {"form": form, "vendedor": vendedor},
+    )
+
+def alterar_senha_vendedor(request):
+    vendedor_id = request.session.get("vendedor_id")
+    if not vendedor_id:
+        messages.error(request, "Você precisa estar logado para alterar a senha.")
+        return redirect("login")
+
+    vendedor = get_object_or_404(Vendedor, id=vendedor_id)
+
+    if request.method == "POST":
+        form = AlterarSenhaVendedorForm(request.POST)
+        if form.is_valid():
+            senha_atual = form.cleaned_data["senha_atual"]
+            senha_nova = form.cleaned_data["senha_nova"]
+
+            # Confere senha atual
+            if not check_password(senha_atual, vendedor.senha):
+                # Se você ainda tiver casos legados de senha em texto puro:
+                if vendedor.senha == senha_atual:
+                    # Migra para hash
+                    vendedor.senha = make_password(senha_atual)
+                    vendedor.save()
+                else:
+                    messages.error(request, "Senha atual incorreta.")
+                    return render(
+                        request,
+                        "appWeb/vendedor/alterar_senha.html",
+                        {"form": form, "vendedor": vendedor},
+                    )
+
+            # Grava nova senha (sempre com hash)
+            vendedor.senha = make_password(senha_nova)
+            vendedor.save()
+
+            messages.success(request, "Senha alterada com sucesso!")
+            return redirect("painel_vendedor")
+    else:
+        form = AlterarSenhaVendedorForm()
+
+    return render(
+        request,
+        "appWeb/vendedor/alterar_senha.html",
+        {"form": form, "vendedor": vendedor},
     )
 
 
